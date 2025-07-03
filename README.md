@@ -6,7 +6,7 @@
 
 ---
 
-## ⚙️ Tech Stack
+## Tech Stack
 
 - **Next.js (TypeScript)** – Modern React framework
 - **Liveblocks** – Real-time collaboration SDK
@@ -16,19 +16,15 @@
 
 ---
 
-## 🚀 Features
+##  Features
 
-- ✅ Add notes in real-time
-- ✅ See how many users are online
-- ✅ Shared state across users (Liveblocks `LiveList`)
-- ✅ Clean, accessible UI
-- ✅ Easily extendable into a full collaborative tool
+-  Add notes in real-time
+-  See how many users are online
+-  Shared state across users (Liveblocks `LiveList`)
+-  Clean, accessible UI
+-  Easily extendable into a full collaborative tool
 
 ---
-
-## 📷 Screenshots
-
-Coming soon...
 
 ---
 
