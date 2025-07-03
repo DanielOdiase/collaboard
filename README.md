@@ -16,7 +16,7 @@
 
 ---
 
-##  Features
+## 🚀 Features
 
 - ✅ Add notes in real-time
 - ✅ See how many users are online
