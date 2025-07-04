@@ -9,7 +9,7 @@
 ## Tech Stack
 
 - **Next.js (TypeScript)** – Modern React framework
-- - **Velt** – Drop-in collaboration toolkit for adding comments, cursors, and presence
+-  **Velt** – Drop-in collaboration toolkit for adding comments, cursors, and presence
 - **Liveblocks** – Real-time collaboration SDK
 - **Tailwind CSS** – Utility-first styling
 - **Vercel** – Deployment platform
