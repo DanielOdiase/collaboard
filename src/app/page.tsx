@@ -7,7 +7,7 @@ import {
 } from '@liveblocks/react/suspense';
 import { LiveList } from '@liveblocks/client';
 import dynamic from 'next/dynamic';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 // ✅ Lazy load components to avoid hydration issues
 const NotesBoard = dynamic(() => import('@/components/NotesBoard'), {
@@ -39,10 +39,10 @@ export default function HomePage() {
   const [roomId, setRoomId] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
-  const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
 
   useEffect(() => {
     let id = '';
+    const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
     if (searchParams && searchParams.has('room')) {
       id = searchParams.get('room') || '';
     } else {
