@@ -56,7 +56,10 @@ export default function TestPage() {
       <RoomProvider
         id="test-room"
         initialStorage={{
-          notes: new LiveList([]),
+          notes: new LiveList<string>(),
+          products: new LiveList<any>(),
+          comments: new LiveList<any>(),
+          highlights: new LiveList<any>(),
         }}
       >
         <TestComponent />
