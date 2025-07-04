@@ -1,6 +1,6 @@
 # 📝 CollabBoard – Real-Time Collaborative Notes App
 
-**CollabBoard** is a real-time collaborative note-taking app built with [Next.js](https://nextjs.org/), [Liveblocks](https://liveblocks.io/), and [Tailwind CSS](https://tailwindcss.com/). Inspired by tools like Google Docs and Figma, this demo allows multiple users to add notes, see who's online, and collaborate live — all from inside the same web page.
+**CollabBoard** is a real-time collaborative note-taking app built with [Next.js](https://nextjs.org/), [Liveblocks](https://liveblocks.io/), and [Tailwind CSS](https://tailwindcss.com/) and [VELT](https://velt.dev/). Inspired by tools like Google Docs and Figma, this demo allows multiple users to add notes, see who's online, and collaborate live — all from inside the same web page.
 
 > Built as a technical showcase for roles involving Solutions Engineering, SDK integration, and client-facing support.
 
@@ -9,10 +9,12 @@
 ## Tech Stack
 
 - **Next.js (TypeScript)** – Modern React framework
+- - **Velt** – Drop-in collaboration toolkit for adding comments, cursors, and presence
 - **Liveblocks** – Real-time collaboration SDK
 - **Tailwind CSS** – Utility-first styling
 - **Vercel** – Deployment platform
 - **GitHub** – Version control
+  
 
 ---
 
