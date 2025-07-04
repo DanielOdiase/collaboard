@@ -7,6 +7,8 @@ import { LiveList } from '@liveblocks/client';
 import dynamic from 'next/dynamic';
 import Navigation from '@/components/Navigation';
 import RoomInfo from '@/components/RoomInfo';
+import VeltClientProvider, { VeltCommentToolbar } from '@/components/VeltClientProvider';
+
 
 // ✅ Lazy load components to avoid hydration issues
 const NotesBoard = dynamic(() => import('@/components/NotesBoard'), {
@@ -162,44 +164,55 @@ export default function HomePage() {
     );
   }
 
-  return (
-    <RoomProvider
-      id={roomId}
-      initialPresence={{
-        userId: userInfo.userId,
-        name: userInfo.name || 'Guest',
-        color: userInfo.color,
-        isTyping: false,
-        previewHighlight: null,
-        cursor: null,
-      }}
-      initialStorage={{
-        notes: new LiveList([]),
-        products: new LiveList([]),
-        comments: new LiveList([]),
-        highlights: new LiveList([]),
-      }}
+  // Debug: log userInfo and roomId before rendering VeltClientProvider
+  console.log('VeltClientProvider userId:', userInfo.userId, 'name:', userInfo.name, 'documentId:', roomId);
 
+  return (
+    <VeltClientProvider
+      userId={userInfo.userId || `user-${Date.now()}`}
+      name={userInfo.name || 'Guest'}
+      documentId={roomId}
     >
-      <ClientSideSuspense 
-        fallback={
-          <div className="min-h-screen flex items-center justify-center">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-                        <p className="text-blue-700">Connecting to collaboration room...</p>
-          <p className="text-sm text-blue-600 mt-2">Room ID: {roomId}</p>
-            </div>
-          </div>
-        }
+      <RoomProvider
+        id={roomId}
+        initialPresence={{
+          userId: userInfo.userId || `user-${Date.now()}`,
+          name: userInfo.name || 'Guest',
+          color: userInfo.color,
+          isTyping: false,
+          previewHighlight: null,
+          cursor: null,
+        }}
+        initialStorage={{
+          notes: new LiveList([]),
+          products: new LiveList([]),
+          comments: new LiveList([]),
+          highlights: new LiveList([]),
+        }}
       >
-        {() => (
-          <div>
-            <Navigation activeView={activeView} onViewChange={setActiveView} />
-            {activeView === 'notes' ? <NotesBoard /> : <ProductBoard />}
-            <RoomInfo roomId={roomId} />
-          </div>
-        )}
-      </ClientSideSuspense>
-    </RoomProvider>
+        <ClientSideSuspense 
+          fallback={
+            <div className="min-h-screen flex items-center justify-center">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+                          <p className="text-blue-700">Connecting to collaboration room...</p>
+                <p className="text-sm text-blue-600 mt-2">Room ID: {roomId}</p>
+              </div>
+            </div>
+          }
+        >
+          {() => (
+            <div>
+              <Navigation activeView={activeView} onViewChange={setActiveView} />
+              <div className="flex justify-center items-center mt-6 mb-8">
+                {activeView === 'products' && <VeltCommentToolbar />}
+              </div>
+              {activeView === 'notes' ? <NotesBoard /> : <ProductBoard />}
+              <RoomInfo roomId={roomId} />
+            </div>
+          )}
+        </ClientSideSuspense>
+      </RoomProvider>
+    </VeltClientProvider>
   );
 }
