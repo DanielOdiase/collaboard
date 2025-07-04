@@ -7,7 +7,6 @@ import {
 } from '@liveblocks/react/suspense';
 import { LiveList } from '@liveblocks/client';
 import dynamic from 'next/dynamic';
-import { useRouter } from 'next/navigation';
 
 // ✅ Lazy load components to avoid hydration issues
 const NotesBoard = dynamic(() => import('@/components/NotesBoard'), {
@@ -38,7 +37,6 @@ export default function HomePage() {
   const [activeView, setActiveView] = useState<'notes' | 'products'>('notes');
   const [roomId, setRoomId] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
-  const router = useRouter();
 
   useEffect(() => {
     let id = '';
