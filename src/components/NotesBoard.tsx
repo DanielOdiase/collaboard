@@ -29,7 +29,6 @@ export default function NotesBoard() {
   useEffect(() => {
     console.log('NotesBoard: notes value:', notes);
     console.log('NotesBoard: room object:', room);
-    console.log('NotesBoard: room connection state:', room?.connectionState);
   }, [notes, room]);
 
   // Add sample notes if none exist
@@ -61,7 +60,6 @@ export default function NotesBoard() {
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
             <p className="text-blue-700">Loading notes...</p>
-            <p className="text-xs text-blue-500 mt-2">Room connection: {room?.connectionState || 'unknown'}</p>
           </div>
         </div>
       </div>
