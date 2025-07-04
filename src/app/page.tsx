@@ -5,9 +5,8 @@ import { RoomProvider } from '../../liveblocks.config';
 import { ClientSideSuspense } from '@liveblocks/react/suspense';
 import { LiveList } from '@liveblocks/client';
 import dynamic from 'next/dynamic';
-import { VeltProvider } from '@/components/VeltProvider';
-import { VeltToolbar } from '@/components/VeltToolbar';
-import { VeltComments, VeltPresence, VeltCursor } from '@veltdev/react';
+import Navigation from '@/components/Navigation';
+import RoomInfo from '@/components/RoomInfo';
 
 // ✅ Lazy load components to avoid hydration issues
 const NotesBoard = dynamic(() => import('@/components/NotesBoard'), {
@@ -15,14 +14,6 @@ const NotesBoard = dynamic(() => import('@/components/NotesBoard'), {
 });
 
 const ProductBoard = dynamic(() => import('@/components/ProductBoard'), {
-  ssr: false,
-});
-
-const Navigation = dynamic(() => import('@/components/Navigation'), {
-  ssr: false,
-});
-
-const RoomInfo = dynamic(() => import('@/components/RoomInfo'), {
   ssr: false,
 });
 
@@ -202,17 +193,11 @@ export default function HomePage() {
         }
       >
         {() => (
-          <VeltProvider>
-            <VeltPresence />
-            <VeltCursor />
-            <VeltComments />
-            <div>
-              <Navigation activeView={activeView} onViewChange={setActiveView} />
-              {activeView === 'notes' ? <NotesBoard /> : <ProductBoard />}
-              <RoomInfo roomId={roomId} />
-              <VeltToolbar />
-            </div>
-          </VeltProvider>
+          <div>
+            <Navigation activeView={activeView} onViewChange={setActiveView} />
+            {activeView === 'notes' ? <NotesBoard /> : <ProductBoard />}
+            <RoomInfo roomId={roomId} />
+          </div>
         )}
       </ClientSideSuspense>
     </RoomProvider>
