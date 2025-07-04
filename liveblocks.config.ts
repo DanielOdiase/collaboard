@@ -33,5 +33,10 @@ declare global {
         }>;
       }>;
     };
+    Presence: {
+      isTyping: boolean;
+    };
   }
 }
+
+export { };

@@ -183,7 +183,7 @@ export default function ProductBoard() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Ideas Column */}
         <div className="bg-gray-50 p-4 rounded-lg">
-          <h2 className="text-xl font-semibold mb-4 text-gray-700">💡 Ideas</h2>
+          <h2 className="text-xl font-semibold mb-4 text-black">💡 Ideas</h2>
           <div className="space-y-3">
             {groupedProducts.idea.map((product: Product) => (
               <ProductCard
@@ -224,7 +224,7 @@ export default function ProductBoard() {
         </div>
       </div>
 
-      <p className="mt-6 text-sm text-gray-500 text-center">
+              <p className="mt-6 text-sm text-blue-600 text-center">
         {others.length} collaborator{others.length !== 1 ? 's' : ''} online
       </p>
     </div>

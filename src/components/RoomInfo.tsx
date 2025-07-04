@@ -26,8 +26,8 @@ export default function RoomInfo({ roomId }: RoomInfoProps) {
   return (
     <div className="fixed bottom-4 right-4 bg-white border border-gray-200 rounded-lg shadow-lg p-3 text-xs">
       <div className="flex items-center gap-2 mb-2">
-        <span className="text-gray-600">Room:</span>
-        <code className="bg-gray-100 px-2 py-1 rounded text-xs font-mono">
+                    <span className="text-blue-700">Room:</span>
+        <code className="bg-gray-100 px-2 py-1 rounded text-xs font-mono text-black">
           {roomId.slice(0, 8)}...
         </code>
       </div>

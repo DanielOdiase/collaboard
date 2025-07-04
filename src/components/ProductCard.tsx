@@ -242,7 +242,7 @@ export default function ProductCard({ product, onStatusChange }: ProductCardProp
                   </div>
                 ))
               ) : (
-                <div className="text-gray-500 italic">No comments</div>
+                <div className="text-blue-600 italic">No comments</div>
               )}
             </div>
           )}
@@ -262,19 +262,19 @@ export default function ProductCard({ product, onStatusChange }: ProductCardProp
         <div className="flex justify-between items-start mb-2">
           {editMode ? (
             <input
-              className="font-semibold text-gray-900 text-lg border-b border-gray-300 focus:outline-none focus:border-blue-500 bg-white"
+                              className="font-semibold text-black text-lg border-b border-gray-300 focus:outline-none focus:border-blue-500 bg-white"
               value={editProduct.name}
               onChange={e => handleEditChange('name', e.target.value)}
               autoFocus
             />
           ) : (
-            <h3 className="font-semibold text-gray-900">{product.name}</h3>
+                            <h3 className="font-semibold text-black">{product.name}</h3>
           )}
           <span className={`px-2 py-1 text-xs font-medium rounded-full ${priorityColors[product.priority]}`}>
             {product.priority}
           </span>
           <button
-            className="ml-2 text-gray-400 hover:text-blue-600 text-sm"
+                            className="ml-2 text-blue-500 hover:text-blue-700 text-sm"
             onClick={() => setEditMode((v) => !v)}
             title="Edit card"
           >
@@ -284,7 +284,7 @@ export default function ProductCard({ product, onStatusChange }: ProductCardProp
         
         {editMode ? (
           <textarea
-            className="text-sm text-gray-600 mb-3 w-full border border-gray-300 rounded p-2 focus:outline-none focus:border-blue-500"
+                            className="text-sm text-black mb-3 w-full border border-gray-300 rounded p-2 focus:outline-none focus:border-blue-500"
             value={editProduct.description}
             onChange={e => handleEditChange('description', e.target.value)}
             rows={3}
@@ -292,7 +292,7 @@ export default function ProductCard({ product, onStatusChange }: ProductCardProp
         ) : (
           <div
             ref={descRef}
-            className="text-sm text-gray-600 mb-3 select-text"
+                            className="text-sm text-black mb-3 select-text"
             onMouseUp={handleMouseUp}
             style={{ whiteSpace: 'pre-line' }}
           >
@@ -326,7 +326,7 @@ export default function ProductCard({ product, onStatusChange }: ProductCardProp
               Save
             </button>
             <button
-              className="px-3 py-1 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 text-xs"
+                              className="px-3 py-1 bg-blue-200 text-blue-800 rounded hover:bg-blue-300 text-xs"
               onClick={handleCancelEdit}
             >
               Cancel
@@ -337,7 +337,7 @@ export default function ProductCard({ product, onStatusChange }: ProductCardProp
         {/* Highlight Input */}
         {showHighlightInput && (
           <div className="mb-3 p-2 bg-yellow-50 border border-yellow-200 rounded">
-            <div className="text-xs text-gray-600 mb-1">
+            <div className="text-xs text-black mb-1 font-medium">
               Highlighted: &quot;{selection?.text}&quot;
             </div>
             <div className="flex gap-2">
@@ -346,7 +346,7 @@ export default function ProductCard({ product, onStatusChange }: ProductCardProp
                 value={highlightComment}
                 onChange={handleHighlightCommentChange}
                 placeholder="Add a comment to this highlight..."
-                className="flex-1 text-xs p-2 border border-gray-300 rounded"
+                className="flex-1 text-xs p-2 border border-gray-300 rounded text-black"
                 autoFocus
               />
               <button
@@ -362,7 +362,7 @@ export default function ProductCard({ product, onStatusChange }: ProductCardProp
                   setShowHighlightInput(false);
                   updateMyPresence({ previewHighlight: null });
                 }}
-                className="px-3 py-2 text-xs bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+                className="px-3 py-2 text-xs bg-blue-200 text-blue-800 rounded hover:bg-blue-300"
               >
                 Cancel
               </button>
@@ -374,10 +374,10 @@ export default function ProductCard({ product, onStatusChange }: ProductCardProp
           <select
             value={product.status}
             onChange={(e) => onStatusChange(product.id, e.target.value as Product['status'])}
-            className="text-xs border border-gray-300 rounded px-2 py-1 bg-white"
+            className="text-xs border border-gray-300 rounded px-2 py-1 bg-white text-black"
           >
             {statusOptions.map((status) => (
-              <option key={status} value={status}>
+              <option key={status} value={status} className="text-black">
                 {status === 'idea' ? '💡 Idea' : 
                  status === 'in-progress' ? '🔄 In Progress' : '✅ Completed'}
               </option>
@@ -399,12 +399,12 @@ export default function ProductCard({ product, onStatusChange }: ProductCardProp
         {/* Highlights & Comments Section */}
         {highlights && highlights.length > 0 && (
           <div className="mt-3">
-            <div className="font-semibold text-xs text-gray-700 mb-1">Highlights & Comments:</div>
+            <div className="font-semibold text-xs text-blue-800 mb-1">Highlights & Comments:</div>
             <ul className="space-y-1">
               {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
               {highlights.map((h: Record<string, any>) => (
-                <li key={h.id} className="text-xs">
-                  <span className="bg-yellow-200 rounded px-1 mr-2">{h.text}</span>
+                <li key={h.id} className="text-xs text-black">
+                  <span className="bg-yellow-200 rounded px-1 mr-2 text-black">{h.text}</span>
                   {h.comments && h.comments.length > 0 ? (
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     h.comments.map((c: Record<string, any>) => (
@@ -420,7 +420,7 @@ export default function ProductCard({ product, onStatusChange }: ProductCardProp
                       </span>
                     ))
                   ) : (
-                    <span className="text-gray-500 italic">No comments</span>
+                    <span className="text-blue-600 italic">No comments</span>
                   )}
                 </li>
               ))}

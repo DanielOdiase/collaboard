@@ -71,17 +71,17 @@ export default function CommentSection({ productId }: CommentSectionProps) {
   };
 
   if (!allComments) {
-    return <div className="text-sm text-gray-500">Loading comments...</div>;
+    return <div className="text-sm text-blue-600">Loading comments...</div>;
   }
 
   return (
     <div className="border-t border-gray-200 pt-3">
-      <h4 className="text-sm font-medium text-gray-900 mb-3">Comments</h4>
+              <h4 className="text-sm font-medium text-black mb-3">Comments</h4>
       
       {/* Comments List */}
       <div className="space-y-2 mb-3 max-h-32 overflow-y-auto">
         {comments.length === 0 ? (
-          <p className="text-sm text-gray-500 italic">No comments yet. Be the first to comment!</p>
+          <p className="text-sm text-blue-600 italic">No comments yet. Be the first to comment!</p>
         ) : (
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           comments.map((comment: Record<string, any>) => (
@@ -91,7 +91,7 @@ export default function CommentSection({ productId }: CommentSectionProps) {
                   <span className="text-xs font-medium text-blue-600">
                     {comment.author}
                   </span>
-                  <span className="text-xs text-gray-500 ml-2">
+                  <span className="text-xs text-blue-600 ml-2">
                     {formatTime(comment.createdAt)}
                   </span>
                 </div>
@@ -103,7 +103,7 @@ export default function CommentSection({ productId }: CommentSectionProps) {
                   🗑️
                 </button>
               </div>
-              <p className="text-sm text-gray-700 mt-1">{comment.text}</p>
+              <p className="text-sm text-black mt-1">{comment.text}</p>
             </div>
           ))
         )}

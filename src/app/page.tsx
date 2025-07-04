@@ -7,6 +7,7 @@ import {
 } from '@liveblocks/react/suspense';
 import { LiveList } from '@liveblocks/client';
 import dynamic from 'next/dynamic';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 // ✅ Lazy load components to avoid hydration issues
 const NotesBoard = dynamic(() => import('@/components/NotesBoard'), {
@@ -25,45 +26,33 @@ const RoomInfo = dynamic(() => import('@/components/RoomInfo'), {
   ssr: false,
 });
 
-// Generate a stable room ID based on URL or create a new one
+// Generate a new room ID on every refresh
 function getRoomId(): string {
-  // In development, use a consistent room ID
-  if (process.env.NODE_ENV === 'development') {
-    return 'collaboard-dev-room';
-  }
-  
-  // In production, try to get room ID from URL or localStorage
-  if (typeof window !== 'undefined') {
-    // Check URL params first
-    const urlParams = new URLSearchParams(window.location.search);
-    const roomIdFromUrl = urlParams.get('room');
-    if (roomIdFromUrl) {
-      return roomIdFromUrl;
-    }
-    
-    // Check localStorage for existing room
-    const savedRoomId = localStorage.getItem('collaboard-room-id');
-    if (savedRoomId) {
-      return savedRoomId;
-    }
-    
-    // Generate new room ID
-    const newRoomId = `room-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-    localStorage.setItem('collaboard-room-id', newRoomId);
-    return newRoomId;
-  }
-  
-  // Fallback for SSR
-  return 'default-room';
+  // Always generate a new room ID with timestamp and random string
+  const timestamp = Date.now();
+  const randomString = Math.random().toString(36).substr(2, 9);
+  return `room-${timestamp}-${randomString}`;
 }
 
 export default function HomePage() {
   const [activeView, setActiveView] = useState<'notes' | 'products'>('notes');
   const [roomId, setRoomId] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
+  const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
 
   useEffect(() => {
-    const id = getRoomId();
+    let id = '';
+    if (searchParams && searchParams.has('room')) {
+      id = searchParams.get('room') || '';
+    } else {
+      id = getRoomId();
+      if (typeof window !== 'undefined') {
+        const url = new URL(window.location.href);
+        url.searchParams.set('room', id);
+        window.history.replaceState({}, '', url.toString());
+      }
+    }
     setRoomId(id);
     setIsLoading(false);
   }, []);
@@ -73,7 +62,7 @@ export default function HomePage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <p className="text-gray-600">Initializing collaboration room...</p>
+          <p className="text-blue-700">Initializing collaboration room...</p>
         </div>
       </div>
     );
@@ -95,8 +84,8 @@ export default function HomePage() {
           <div className="min-h-screen flex items-center justify-center">
             <div className="text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-              <p className="text-gray-600">Connecting to collaboration room...</p>
-              <p className="text-sm text-gray-500 mt-2">Room ID: {roomId}</p>
+                        <p className="text-blue-700">Connecting to collaboration room...</p>
+          <p className="text-sm text-blue-600 mt-2">Room ID: {roomId}</p>
             </div>
           </div>
         }

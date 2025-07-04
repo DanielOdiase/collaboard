@@ -1,7 +1,7 @@
 // src/app/layout.tsx
 import './globals.css';
 import type { Metadata } from 'next';
-import LiveblocksWrapper from '@/components/LiveblocksWrapper';
+import LiveblocksRoot from '@/components/LiveblocksRoot';
 
 export const metadata: Metadata = {
   title: 'CollabBoard',
@@ -12,7 +12,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
-        <LiveblocksWrapper>{children}</LiveblocksWrapper>
+        <LiveblocksRoot>{children}</LiveblocksRoot>
       </body>
     </html>
   );

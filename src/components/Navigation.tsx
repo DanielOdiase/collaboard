@@ -16,8 +16,8 @@ export default function Navigation({ activeView, onViewChange }: NavigationProps
                 onClick={() => onViewChange('notes')}
                 className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
                   activeView === 'notes'
-                    ? 'border-blue-500 text-gray-900'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'border-blue-500 text-black'
+                    : 'border-transparent text-blue-600 hover:text-blue-800 hover:border-blue-300'
                 }`}
               >
                 📝 Notes Board
@@ -26,8 +26,8 @@ export default function Navigation({ activeView, onViewChange }: NavigationProps
                 onClick={() => onViewChange('products')}
                 className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
                   activeView === 'products'
-                    ? 'border-blue-500 text-gray-900'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'border-blue-500 text-black'
+                    : 'border-transparent text-blue-600 hover:text-blue-800 hover:border-blue-300'
                 }`}
               >
                 🚀 Product Board

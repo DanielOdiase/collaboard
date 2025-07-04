@@ -5,11 +5,13 @@ import {
   useStorage,
   useMutation,
   useUpdateMyPresence,
+  useRoom,
 } from '@liveblocks/react';
 import { LiveList } from '@liveblocks/client';
 
 export default function NotesBoard() {
   const notes = useStorage((root) => root.notes) as LiveList<string> | null;
+  const room = useRoom();
   const addNote = useMutation(({ storage }, noteText: string) => {
     const notesList = storage.get('notes');
     if (notesList && notesList.push) {
@@ -22,6 +24,13 @@ export default function NotesBoard() {
   useEffect(() => {
     updateMyPresence({ isTyping: false });
   }, [updateMyPresence]);
+
+  // Debug logging
+  useEffect(() => {
+    console.log('NotesBoard: notes value:', notes);
+    console.log('NotesBoard: room object:', room);
+    console.log('NotesBoard: room connection state:', room?.connectionState);
+  }, [notes, room]);
 
   // Add sample notes if none exist
   useEffect(() => {
@@ -44,15 +53,26 @@ export default function NotesBoard() {
     setNewNote('');
   };
 
+  // Show loading state while storage is being initialized
   if (!notes) {
-    return <div>Loading notes...</div>;
+    return (
+      <div className="p-6 max-w-4xl mx-auto">
+        <div className="flex justify-center items-center h-64">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+            <p className="text-blue-700">Loading notes...</p>
+            <p className="text-xs text-blue-500 mt-2">Room connection: {room?.connectionState || 'unknown'}</p>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Notes Board 📝</h1>
-        <div className="text-sm text-gray-500">
+        <div className="text-sm text-blue-700">
           {notes.length} note{notes.length !== 1 ? 's' : ''}
         </div>
       </div>
@@ -60,20 +80,20 @@ export default function NotesBoard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
         {notes.map((note, index) => (
           <div key={index} className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
-            <p className="text-gray-700 whitespace-pre-wrap">{note}</p>
+            <p className="text-black whitespace-pre-wrap">{note}</p>
           </div>
         ))}
       </div>
 
       <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
-        <h3 className="text-lg font-semibold mb-3">Add New Note</h3>
+        <h3 className="text-lg font-semibold mb-3 text-black">Add New Note</h3>
         <div className="flex gap-2">
           <textarea
             value={newNote}
             onChange={(e) => setNewNote(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleAddNote()}
             placeholder="Type your note here..."
-            className="flex-1 p-2 border border-gray-300 rounded resize-none"
+            className="flex-1 p-2 border border-gray-300 rounded resize-none text-black"
             rows={3}
           />
           <button
