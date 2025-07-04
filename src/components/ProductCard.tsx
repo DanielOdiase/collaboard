@@ -47,9 +47,9 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, onStatusChange }: ProductCardProps) {
   const [showComments, setShowComments] = useState(false);
-  const comments = useStorage((root) => 
-    root.comments?.filter((comment: Comment) => comment.productId === product.id)
-  ) as LiveList<Comment> | null;
+  const comments = useStorage((root) =>
+    (root.comments?.filter((comment: Comment) => comment.productId === product.id)) ?? []
+  ) as Comment[];
 
   // Inline highlight state
   const allHighlightsRaw = useStorage((root) => root.highlights) as LiveList<Highlight> | null;
@@ -374,7 +374,7 @@ export default function ProductCard({ product, onStatusChange }: ProductCardProp
             onClick={() => setShowComments(!showComments)}
             className="text-xs text-blue-600 hover:text-blue-800"
           >
-            {showComments ? 'Hide Comments' : `Comments (${comments?.length || 0})`}
+            {showComments ? 'Hide Comments' : `Comments (${comments.length})`}
           </button>
         </div>
 
