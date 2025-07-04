@@ -52,9 +52,9 @@ export default function ProductCard({ product, onStatusChange }: ProductCardProp
   ) as Comment[];
 
   // Inline highlight state
-  const allHighlightsRaw = useStorage((root) => root.highlights) as LiveList<Highlight> | null;
+  const allHighlightsRaw = useStorage((root) => root.highlights) as unknown as Highlight[] | null;
   const highlights: Highlight[] = allHighlightsRaw
-    ? allHighlightsRaw.filter((h: Highlight) => h.productId === product.id)
+    ? allHighlightsRaw.filter((h) => h.productId === product.id)
     : [];
   const addHighlight = useMutation(({ storage }, highlight: Highlight) => {
     const highlightsList = storage.get('highlights');
