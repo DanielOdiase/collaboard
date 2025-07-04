@@ -38,9 +38,10 @@ export default function CollaboratorsBar() {
         const color = presence?.color || COLORS[(user.connectionId || i) % COLORS.length];
         const initials = getInitials(name) || 'A';
         const isTyping = presence?.isTyping;
+        const uniqueKey = `${user.connectionId ?? 'unknown'}-${user.isSelf ? 'self' : 'other'}-${i}`;
         return (
           <div
-            key={user.connectionId || i}
+            key={uniqueKey}
             className={`relative group flex items-center`}
           >
             <div

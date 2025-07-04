@@ -5,6 +5,9 @@ import { RoomProvider } from '../../liveblocks.config';
 import { ClientSideSuspense } from '@liveblocks/react/suspense';
 import { LiveList } from '@liveblocks/client';
 import dynamic from 'next/dynamic';
+import { VeltProvider } from '@/components/VeltProvider';
+import { VeltToolbar } from '@/components/VeltToolbar';
+import { VeltComments, VeltPresence, VeltCursor } from '@veltdev/react';
 
 // ✅ Lazy load components to avoid hydration issues
 const NotesBoard = dynamic(() => import('@/components/NotesBoard'), {
@@ -32,7 +35,7 @@ function getRoomId(): string {
 }
 
 // Name Input Modal Component
-function NameInputModal({ onSubmit }: { onSubmit: (name: string) => void }) {
+function NameInputModal({ onSubmit, isSharedRoom = false }: { onSubmit: (name: string) => void; isSharedRoom?: boolean }) {
   const [name, setName] = useState('');
   const [error, setError] = useState('');
 
@@ -53,8 +56,15 @@ function NameInputModal({ onSubmit }: { onSubmit: (name: string) => void }) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg p-6 w-96 max-w-[90vw]">
-        <h2 className="text-xl font-bold mb-4 text-gray-900">Welcome to CollabBoard!</h2>
-        <p className="text-gray-600 mb-4">Enter your name to start collaborating:</p>
+        <h2 className="text-xl font-bold mb-4 text-gray-900">
+          {isSharedRoom ? 'Join Collaboration Room' : 'Welcome to CollabBoard!'}
+        </h2>
+        <p className="text-gray-600 mb-4">
+          {isSharedRoom 
+            ? 'You\'re joining a shared collaboration room. Enter your name to start collaborating:'
+            : 'Enter your name to start collaborating:'
+          }
+        </p>
         
         <form onSubmit={handleSubmit}>
           <input
@@ -75,7 +85,7 @@ function NameInputModal({ onSubmit }: { onSubmit: (name: string) => void }) {
             type="submit"
             className="w-full mt-4 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
-            Start Collaborating
+            {isSharedRoom ? 'Join Room' : 'Start Collaborating'}
           </button>
         </form>
       </div>
@@ -120,12 +130,14 @@ export default function HomePage() {
   const [isLoading, setIsLoading] = useState(true);
   const [userInfo, setUserInfo] = useState(() => getOrPromptUserInfo());
   const [showNameInput, setShowNameInput] = useState(!userInfo.name);
+  const [isSharedRoom, setIsSharedRoom] = useState(false);
 
   useEffect(() => {
     let id = '';
     const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
     if (searchParams && searchParams.has('room')) {
       id = searchParams.get('room') || '';
+      setIsSharedRoom(true);
     } else {
       id = getRoomId();
       if (typeof window !== 'undefined') {
@@ -145,7 +157,7 @@ export default function HomePage() {
   };
 
   if (showNameInput) {
-    return <NameInputModal onSubmit={handleNameSubmit} />;
+    return <NameInputModal onSubmit={handleNameSubmit} isSharedRoom={isSharedRoom} />;
   }
 
   if (isLoading) {
@@ -176,6 +188,7 @@ export default function HomePage() {
         comments: new LiveList([]),
         highlights: new LiveList([]),
       }}
+
     >
       <ClientSideSuspense 
         fallback={
@@ -189,11 +202,17 @@ export default function HomePage() {
         }
       >
         {() => (
-          <div>
-            <Navigation activeView={activeView} onViewChange={setActiveView} />
-            {activeView === 'notes' ? <NotesBoard /> : <ProductBoard />}
-            <RoomInfo roomId={roomId} />
-          </div>
+          <VeltProvider>
+            <VeltPresence />
+            <VeltCursor />
+            <VeltComments />
+            <div>
+              <Navigation activeView={activeView} onViewChange={setActiveView} />
+              {activeView === 'notes' ? <NotesBoard /> : <ProductBoard />}
+              <RoomInfo roomId={roomId} />
+              <VeltToolbar />
+            </div>
+          </VeltProvider>
         )}
       </ClientSideSuspense>
     </RoomProvider>

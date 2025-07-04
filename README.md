@@ -23,6 +23,7 @@
 -  Shared state across users (Liveblocks `LiveList`)
 -  Clean, accessible UI
 -  Easily extendable into a full collaborative tool
+-  **Velt Integration** - Comments, screen recording, and notifications
 
 ---
 
