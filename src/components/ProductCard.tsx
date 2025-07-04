@@ -51,16 +51,13 @@ export default function ProductCard({ product, onStatusChange }: ProductCardProp
 
   // Inline highlight state
   const allHighlightsRaw = useStorage((root) => root.highlights) as LiveList<Highlight> | null;
-  const highlights: Array<Highlight | Record<string, any>> = allHighlightsRaw
-    ? allHighlightsRaw.filter(
-        (h: Highlight) => (h as Highlight).productId === product.id
-      )
+  const highlights: Highlight[] = allHighlightsRaw
+    ? allHighlightsRaw.filter((h: Highlight) => h.productId === product.id)
     : [];
-  const addHighlight = useMutation(({ storage }, highlight: unknown) => {
+  const addHighlight = useMutation(({ storage }, highlight: Highlight) => {
     const highlightsList = storage.get('highlights');
     if (highlightsList && highlightsList.push) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      highlightsList.push(highlight as Highlight);
+      highlightsList.push(highlight);
     }
   }, []);
   const [selection, setSelection] = useState<{start: number, end: number, text: string} | null>(null);
@@ -93,13 +90,11 @@ export default function ProductCard({ product, onStatusChange }: ProductCardProp
   const deleteComment = useMutation(({ storage }, highlightId: string, commentId: string) => {
     const highlightsList = storage.get('highlights');
     if (highlightsList) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const idx = highlightsList.findIndex((h: Record<string, any>) => h.id === highlightId);
+      const idx = highlightsList.findIndex((h: Highlight) => h.id === highlightId);
       if (idx !== -1) {
         const highlight = highlightsList.get(idx);
         if (highlight) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const newComments = highlight.comments.filter((c: Record<string, any>) => c.id !== commentId);
+          const newComments = highlight.comments.filter((c: HighlightComment) => c.id !== commentId);
           if (newComments.length === 0) {
             highlightsList.delete(idx); // Remove highlight if no comments left
           } else {
