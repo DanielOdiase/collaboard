@@ -55,6 +55,7 @@ export default function TestPage() {
     <LiveblocksProvider publicApiKey={apiKey}>
       <RoomProvider
         id="test-room"
+        initialPresence={{ isTyping: false }}
         initialStorage={{
           notes: new LiveList<string>([]),
           products: new LiveList<{ id: string; name: string; description: string; status: 'idea' | 'in-progress' | 'completed'; priority: 'low' | 'medium' | 'high'; createdAt: number }>([]),
