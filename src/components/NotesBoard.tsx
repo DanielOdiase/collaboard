@@ -6,7 +6,7 @@ import {
   useMutation,
   useUpdateMyPresence,
   useRoom,
-} from '@liveblocks/react';
+} from '../../liveblocks.config';
 import { LiveList } from '@liveblocks/client';
 
 export default function NotesBoard() {

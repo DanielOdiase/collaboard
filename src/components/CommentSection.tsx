@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useStorage, useMutation, useSelf } from '@liveblocks/react';
+import { useStorage, useMutation, useSelf } from '../../liveblocks.config';
 import { LiveList } from '@liveblocks/client';
 
 interface Comment {
@@ -33,7 +33,7 @@ export default function CommentSection({ productId }: CommentSectionProps) {
         id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         productId,
         text: commentText,
-        author: self?.info?.name || 'Anonymous',
+        author: self?.presence?.name || 'Anonymous',
         createdAt: Date.now(),
       };
       commentsList.push(newComment);

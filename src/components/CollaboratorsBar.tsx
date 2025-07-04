@@ -1,6 +1,7 @@
 'use client';
 
-import { useOthers, useSelf } from '@liveblocks/react';
+import { useOthers, useSelf } from '../../liveblocks.config';
+import type { Presence } from '../../liveblocks.config';
 
 const COLORS = [
   'bg-blue-500',
@@ -32,11 +33,11 @@ export default function CollaboratorsBar() {
   return (
     <div className="flex items-center space-x-2">
       {everyone.map((user, i) => {
-        const info = user.info || {};
-        const name = info.name || `Anon${user.connectionId || i + 1}`;
-        const color = info.color || COLORS[(user.connectionId || i) % COLORS.length];
+        const presence = user.presence as Presence;
+        const name = presence?.name || `Anon${user.connectionId || i + 1}`;
+        const color = presence?.color || COLORS[(user.connectionId || i) % COLORS.length];
         const initials = getInitials(name) || 'A';
-        const isTyping = user.presence?.isTyping;
+        const isTyping = presence?.isTyping;
         return (
           <div
             key={user.connectionId || i}

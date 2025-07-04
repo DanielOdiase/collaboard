@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { useStorage, useMutation, useUpdateMyPresence, useOthers } from '@liveblocks/react';
-import { LiveList } from '@liveblocks/client';
+import { useStorage, useMutation, useUpdateMyPresence, useOthers, useSelf } from '../../liveblocks.config';
 import CommentSection from './CommentSection';
+import type { Presence } from '../../liveblocks.config';
 
 interface Product {
   id: string;
@@ -38,17 +38,14 @@ interface Highlight {
   end: number;
   text: string;
   comments: HighlightComment[];
+  isPreview?: boolean;
+  author?: string;
 }
 
 interface ProductCardProps {
   product: Product;
   onStatusChange: (productId: string, newStatus: Product['status']) => void;
 }
-
-type Presence = {
-  isTyping: boolean;
-  previewHighlight: unknown | null;
-};
 
 export default function ProductCard({ product, onStatusChange }: ProductCardProps) {
   const [showComments, setShowComments] = useState(false);
@@ -74,6 +71,7 @@ export default function ProductCard({ product, onStatusChange }: ProductCardProp
   const [hoveredHighlightId, setHoveredHighlightId] = useState<string | null>(null);
   const updateMyPresence = useUpdateMyPresence();
   const others = useOthers();
+  const self = useSelf();
 
   const priorityColors = {
     low: 'bg-green-100 text-green-800',
@@ -161,7 +159,7 @@ export default function ProductCard({ product, onStatusChange }: ProductCardProp
       text: selection.text,
       comments: [{
         id: commentId,
-        author: 'Anonymous',
+        author: ((self && typeof self.presence === 'object' && 'name' in self.presence && (self.presence as Presence).name) || 'Guest'),
         text: highlightComment,
         createdAt: Date.now(),
       }],

@@ -6,7 +6,7 @@ import {
   useUpdateMyPresence,
   useStorage,
   useMutation,
-} from '@liveblocks/react';
+} from '../../liveblocks.config';
 import { LiveList } from '@liveblocks/client';
 import ProductCard from './ProductCard';
 import CollaboratorsBar from './CollaboratorsBar';
