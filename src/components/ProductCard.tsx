@@ -57,8 +57,7 @@ export default function ProductCard({ product, onStatusChange }: ProductCardProp
   const allHighlightsRaw = useStorage((root) => root.highlights) as LiveList<Highlight> | null;
   const highlights: Array<Highlight | Record<string, any>> = allHighlightsRaw
     ? allHighlightsRaw.filter(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (h: Highlight | Record<string, any>) => (h as Highlight).productId === product.id
+        (h: Highlight) => (h as Highlight).productId === product.id
       )
     : [];
   const addHighlight = useMutation(({ storage }, highlight: unknown) => {
@@ -118,8 +117,7 @@ export default function ProductCard({ product, onStatusChange }: ProductCardProp
   // Edit mode state for product card
   const [editMode, setEditMode] = useState(false);
   const [editProduct, setEditProduct] = useState({ ...product });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleEditChange = (field: keyof Product, value: any) => {
+  const handleEditChange = (field: keyof Product, value: string | number | Product['status'] | Product['priority']) => {
     setEditProduct((prev) => ({ ...prev, [field]: value }));
   };
   const handleSaveEdit = () => {
@@ -185,8 +183,7 @@ export default function ProductCard({ product, onStatusChange }: ProductCardProp
   // Render description with highlights and live preview highlights
   function renderDescriptionWithHighlights() {
     const allHighlights = highlights
-      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        highlights.filter((h: Record<string, any>) => h.productId === product.id)
+      ? highlights.filter((h: Highlight) => h.productId === product.id)
       : [];
     // Add live preview highlights from others
     others.forEach((user) => {
@@ -196,8 +193,7 @@ export default function ProductCard({ product, onStatusChange }: ProductCardProp
         typeof preview === 'object' &&
         preview !== null &&
         'productId' in preview &&
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (preview as Record<string, any>).productId === product.id
+        preview.productId === product.id
       ) {
         allHighlights.push({
           ...preview,
@@ -209,8 +205,7 @@ export default function ProductCard({ product, onStatusChange }: ProductCardProp
     });
     if (allHighlights.length === 0) return product.description;
     // Sort highlights by start
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const sorted = allHighlights.sort((a: Record<string, any>, b: Record<string, any>) => a.start - b.start);
+    const sorted = allHighlights.sort((a: Highlight, b: Highlight) => a.start - b.start);
     const parts = [];
     let lastIdx = 0;
     for (const h of sorted) {
@@ -234,8 +229,7 @@ export default function ProductCard({ product, onStatusChange }: ProductCardProp
             <div className="absolute z-10 left-0 mt-2 p-2 bg-white border border-gray-300 rounded shadow-lg text-xs min-w-[180px] max-w-xs">
               <div className="font-semibold mb-1">Comments</div>
               {h.comments && h.comments.length > 0 ? (
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                h.comments.map((c: Record<string, any>) => (
+                h.comments.map((c: { id: string; author: string; text: string; createdAt: number }) => (
                   <div key={c.id} className="mb-1">
                     <span className="font-bold text-blue-700">{c.author}:</span> {c.text}
                   </div>
@@ -400,13 +394,11 @@ export default function ProductCard({ product, onStatusChange }: ProductCardProp
           <div className="mt-3">
             <div className="font-semibold text-xs text-blue-800 mb-1">Highlights & Comments:</div>
             <ul className="space-y-1">
-              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-              {highlights.map((h: Record<string, any>) => (
+              {highlights.map((h: Highlight) => (
                 <li key={h.id} className="text-xs text-black">
                   <span className="bg-yellow-200 rounded px-1 mr-2 text-black">{h.text}</span>
                   {h.comments && h.comments.length > 0 ? (
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    h.comments.map((c: Record<string, any>) => (
+                    h.comments.map((c: { id: string; author: string; text: string; createdAt: number }) => (
                       <span key={c.id} className="mr-2">
                         <span className="font-bold text-blue-700">{c.author}:</span> {c.text}
                         <button
