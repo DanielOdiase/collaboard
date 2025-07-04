@@ -45,6 +45,11 @@ interface ProductCardProps {
   onStatusChange: (productId: string, newStatus: Product['status']) => void;
 }
 
+type Presence = {
+  isTyping: boolean;
+  previewHighlight: unknown | null;
+};
+
 export default function ProductCard({ product, onStatusChange }: ProductCardProps) {
   const [showComments, setShowComments] = useState(false);
   const comments = useStorage((root) =>
