@@ -12,8 +12,6 @@ interface Product {
   status: 'idea' | 'in-progress' | 'completed';
   priority: 'low' | 'medium' | 'high';
   createdAt: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
 }
 
 interface Comment {
@@ -22,8 +20,13 @@ interface Comment {
   text: string;
   author: string;
   createdAt: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
+}
+
+interface HighlightComment {
+  id: string;
+  author: string;
+  text: string;
+  createdAt: number;
 }
 
 interface Highlight {
@@ -32,14 +35,7 @@ interface Highlight {
   start: number;
   end: number;
   text: string;
-  comments: Array<{
-    id: string;
-    author: string;
-    text: string;
-    createdAt: number;
-    [key: string]: any;
-  }>;
-  [key: string]: any;
+  comments: HighlightComment[];
 }
 
 interface ProductCardProps {
