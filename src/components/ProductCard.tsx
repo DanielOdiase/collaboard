@@ -15,6 +15,7 @@ interface Product {
 }
 
 interface Comment {
+  [key: string]: unknown;
   id: string;
   productId: string;
   text: string;
@@ -30,6 +31,7 @@ interface HighlightComment {
 }
 
 interface Highlight {
+  [key: string]: unknown;
   id: string;
   productId: string;
   start: number;
