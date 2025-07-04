@@ -58,7 +58,7 @@ export default function TestPage() {
         initialStorage={{
           notes: new LiveList<string>([]),
           products: new LiveList<{ id: string; name: string; description: string; status: 'idea' | 'in-progress' | 'completed'; priority: 'low' | 'medium' | 'high'; createdAt: number }>([]),
-          comments: new LiveList<{ id: string; cardId: string; text: string; author: string; createdAt: number }>([]),
+          comments: new LiveList<{ id: string; productId: string; text: string; author: string; createdAt: number }>([]),
           highlights: new LiveList<{ id: string; cardId: string; text: string; comment: string; author: string; createdAt: number }>([]),
         }}
       >
